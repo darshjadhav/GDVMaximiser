@@ -82,15 +82,21 @@ def gdv_fail(combination_list, areasqm, propertysqm):
     empty = True
     temp_areasqm = areasqm
     areatracker = []
+    precheck = 0
+    postcheck = 0
     while empty:
         if len(combination_list) < 10:
             temp_areasqm -= 1
-            areatracker.append(temp_areasqm)
+            precheck = len(combination_list)
             combination_list.extend(gdv_alg(temp_areasqm, propertysqm))
+            postcheck = len(combination_list)
+            if precheck < postcheck:
+                areatracker.append(temp_areasqm)
+
         elif len(combination_list) >= 10:
-            print("NO SOLUTION FOUND FOR %d sqm (Total Area) \nSOLUTION FOUND FOR AREAS (sqm):" % areasqm)
-            # for i in range(len(areatracker)):
-            #     print(areatracker)
+            print("SOLUTION FOUND FOR AREAS (sqm):")
+            for i in range(len(areatracker)):
+                print("%d sqm" % areatracker[i])
             empty = False
 
     return remove_dupes(combination_list)
