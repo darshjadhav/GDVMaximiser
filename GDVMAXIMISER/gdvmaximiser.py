@@ -81,10 +81,8 @@ def gdv_alg(areasqm, propertysqm):
 # If no solution was found for the initial area provided, minus 1sqm to area and recalculate to find solution
 def gdv_fail(combination_list, areasqm, propertysqm):
     empty = True
-    temp_areasqm = areasqm
-    areatracker = []
-    precheck = 0
-    postcheck = 0
+    temp_areasqm = copy.deepcopy(areasqm)
+    areatracker = [temp_areasqm]
     while empty:
         if len(combination_list) < 10:
             temp_areasqm -= 1
@@ -182,7 +180,7 @@ def main():
             ratioval[i][j] = round((countervals[i][j] / sum(countervals[i]))*100)
         print("---------------------")
         print("Estimated GDV: £%d" % sumgdvlist[i])
-        print("Ratio Split (%): %s" % ratioval[i])
+        print("Ratio Split: %s" % ratioval[i])
         print("---------------------\n")
 
 
