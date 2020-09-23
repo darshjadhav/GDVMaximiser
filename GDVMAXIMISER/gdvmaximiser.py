@@ -6,6 +6,7 @@ Version: 1.0
 """
 
 from collections import Counter
+import copy
 
 # Simple data collection from user input
 def data_collection():
@@ -171,14 +172,17 @@ def main():
     counterkeys, countervals = breakdown_combinations(indexes, noOfBeds)
 
     sumgdvlist = sum_gdv(indexes, estgdv)
+    ratioval = copy.deepcopy(countervals)
 
     for i in range(len(counterkeys)):
         print("Combination %d" % (i + 1))
         print("---------------------")
         for j in range(len(counterkeys[i])):
             print("Number of %d-Beds: %d" % (counterkeys[i][j], countervals[i][j]))
+            ratioval[i][j] = round((countervals[i][j] / sum(countervals[i]))*100)
         print("---------------------")
         print("Estimated GDV: £%d" % sumgdvlist[i])
+        print("Ratio Split (%): %s" % ratioval[i])
         print("---------------------\n")
 
 
