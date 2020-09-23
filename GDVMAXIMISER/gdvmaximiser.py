@@ -81,13 +81,16 @@ def gdv_alg(areasqm, propertysqm):
 def gdv_fail(combination_list, areasqm, propertysqm):
     empty = True
     temp_areasqm = areasqm
+    areatracker = []
     while empty:
-        if not combination_list:
+        if len(combination_list) < 10:
             temp_areasqm -= 1
-            combination_list = gdv_alg(temp_areasqm, propertysqm)
-        elif combination_list:
-            print("NO SOLUTION FOUND FOR %d sqm (Total Area) \nSOLUTION FOUND FOR %d sqm (Total Area) \n\n" % (
-            areasqm, temp_areasqm))
+            areatracker.append(temp_areasqm)
+            combination_list.extend(gdv_alg(temp_areasqm, propertysqm))
+        elif len(combination_list) >= 10:
+            print("NO SOLUTION FOUND FOR %d sqm (Total Area) \nSOLUTION FOUND FOR AREAS (sqm):" % areasqm)
+            # for i in range(len(areatracker)):
+            #     print(areatracker)
             empty = False
 
     return remove_dupes(combination_list)
@@ -154,7 +157,7 @@ def main():
 
     combination_list = gdv_alg(areasqm, propertysqm)
 
-    if not combination_list:
+    if len(combination_list) < 10:
         combination_list = gdv_fail(combination_list, areasqm, propertysqm)
 
     indexes = indexing(combination_list, propertysqm)
