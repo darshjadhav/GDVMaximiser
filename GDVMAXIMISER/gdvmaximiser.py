@@ -7,6 +7,7 @@ Version: 1.0
 
 from collections import Counter
 import copy
+import pandas as pd
 
 # Simple data collection from user input
 def data_collection():
@@ -51,6 +52,18 @@ def data_collection():
     print("---------------------------------------------\n\n")
 
     return areasqm, possibleDifferentBeds, propertysqm, noOfBeds, estgdv
+
+
+def testdata():
+
+    areasqm = 1000
+    possibleDifferentBeds = 2
+    propertysqm = [41, 65]
+    noOfBeds = [1, 2]
+    estgdv = [200000, 240000]
+
+    return areasqm, possibleDifferentBeds, propertysqm, noOfBeds, estgdv
+
 
 # Removes duplicates from list in list
 def remove_dupes(lst):
@@ -131,9 +144,26 @@ def breakdown_combinations(storeind, noofbeds):
         counterkeys.append(list(counter_var[i].keys()))
         countervals.append(list(counter_var[i].values()))
 
+    maxlength = len(max(counterkeys,key=len))
+    indexlenvar = list(range(0, maxlength))
+
+    for i in range(len(counterkeys)):
+        if len(counterkeys[i]) < maxlength:
+            for k in range(len(indexlenvar)):
+                if indexlenvar[k] not in counterkeys[i]:
+                    counterkeys[i].append(indexlenvar[k])
+                    countervals[i].append(indexlenvar[k])
+
+
     for i in range(len(counterkeys)):
         for j in range(len(counterkeys[i])):
             counterkeys[i][j] = noofbeds[counterkeys[i][j]]
+
+    for i in range(len(counterkeys)):
+        counterkeys[i], countervals[i] = zip(*sorted(zip(counterkeys[i], countervals[i])))
+
+    counterkeys = [list(i) for i in counterkeys]
+    countervals = [list(i) for i in countervals]
 
     return counterkeys, countervals
 
@@ -154,12 +184,30 @@ def sum_gdv(storeind, estgdv):
 
     return sumgdvlst
 
+def dataset_conversion(counterkeys, countervals, sumgdvlist, ratioval):
+
+    dataset = pd.DataFrame(data=list(zip(countervals, sumgdvlist, ratioval)), columns=[str(counterkeys), "sumgdvlist", "ratioval"])
+
+    # dataset = pd.DataFrame()
+    #
+    # for i in range(len(counterval)):
+    #     for j in range(len(counterval[i])):
+    #         dataset.append(counterval[i][j])
+    # dataset.append(sumgdvlist)
+    #
+    # for i in range(len(ratioval)):
+    #     for j in range(len(ratioval[i])):
+    #         dataset.append(ratioval[i][j])
+
+    return dataset
+
 
 
 
 def main():
-    areasqm, possibleDifferentBeds, propertysqm, noOfBeds, estgdv = data_collection()
+    #areasqm, possibleDifferentBeds, propertysqm, noOfBeds, estgdv = data_collection()
 
+    areasqm, possibleDifferentBeds, propertysqm, noOfBeds, estgdv = testdata()
     combination_list = gdv_alg(areasqm, propertysqm)
 
     if len(combination_list) < 10:
@@ -182,6 +230,10 @@ def main():
         print("Estimated GDV: £%d" % sumgdvlist[i])
         print("Ratio Split: %s" % ratioval[i])
         print("---------------------\n")
+
+    dataset = dataset_conversion(counterkeys, countervals, sumgdvlist, ratioval)
+    print("DATASET")
+    print(dataset)
 
 
 if __name__ == "__main__":
