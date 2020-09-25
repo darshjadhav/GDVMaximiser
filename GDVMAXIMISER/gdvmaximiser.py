@@ -186,7 +186,7 @@ def sum_gdv(storeind, estgdv):
 
 def dataset_conversion(counterkeys, countervals, sumgdvlist, ratioval):
 
-    dataset = pd.DataFrame(data=list(zip(countervals, sumgdvlist, ratioval)), columns=[str(counterkeys), "sumgdvlist", "ratioval"])
+    dataset = pd.DataFrame(data=list(zip(countervals, sumgdvlist, ratioval)), columns=[str(counterkeys[0]), "GDV", "Ratio Split"])
 
     # dataset = pd.DataFrame()
     #
