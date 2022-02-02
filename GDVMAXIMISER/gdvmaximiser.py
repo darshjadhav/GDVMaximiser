@@ -178,6 +178,7 @@ def sum_gdv(storeind, estgdv):
 # Output Function
 def dataset_conversion(counterkeys, countervals, sumgdvlist, ratioval, url):
     dataset = pd.DataFrame(data=list(zip(countervals, sumgdvlist, ratioval)), columns=["No. of Beds: " + str(counterkeys[0]), "GDV", "Ratio Split"])
+    dataset["GDV"] = dataset["GDV"].map('£{:,.2f}'.format)
     dataset = dataset.sort_values(by=["GDV"], ascending=False)
     dataset.to_csv(url)
     return dataset
