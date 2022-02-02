@@ -1,8 +1,8 @@
 """
 Author: Darsh Jadhav
 Title: GDV Maximiser
-Description: A program to find the best possible combinations of properties within a given area
-Version: 1.0
+Description: A program to find the best possible combinations of properties within a given area, whilst factoring property ratios
+Version: 2.0
 """
 
 from collections import Counter
@@ -21,6 +21,7 @@ def data_collection():
     propertysqm = [0] * possibleDifferentBeds  # Area of each property, used in algorithm
     noOfBeds = [0] * possibleDifferentBeds  # For identification of answer at the end (e.g. 2 1-beds, 1 2-beds, etc...)
     estgdv = [0] * possibleDifferentBeds  # Used to calculate gdv for each combination
+    # ratio_split = [0] * possibleDifferentBeds # Distribution of property types
     for i in range(len(propertysqm)):
         print("Number of Beds for Property %d :>" % (i + 1))
         noOfBeds[i] = int(input())
@@ -29,6 +30,15 @@ def data_collection():
         print("Estimated GDV of Property %d (£):>" % (i + 1))
         estgdv[i] = int(input())
 
+    # ratio_check = False
+    # while not ratio_check:
+    #     for i in range(len(ratio_split)):
+    #         print("Percentage Ratio of Property %d :>" % (i + 1))
+    #         ratio_split[i] = int(input())
+    #     if sum(ratio_split) == 100:
+    #         ratio_check = True
+    #     else:
+    #         print("Error: Percentage Ratio did not add up to 100%, Re-input Values. \n")
 
 
     print("\n\nData Summary")
